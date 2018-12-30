@@ -1,0 +1,35 @@
+<body>
+    <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/prop-types/15.6.2/prop-types.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.js"></script>
+
+    <div id='root'></div>
+    <script type="text/babel">
+
+        // function Message({message}) {
+        //     return React.createElement('div', null, 'No message');
+        // }
+
+        function Message({message}) {
+            if(!message){
+                return React.createElement('div', null, 'No message');
+            }
+            return React.createElement('div', null, message);
+        }
+
+        function Message2({message}) {
+            return(
+                <div>
+                    {
+                        !message? (<div>No Message</div>) : (<div>{message}</div>)
+                    }
+                </div>
+            )
+        }
+        console.log(Message2);
+        
+        
+        ReactDOM.render(<Message message= "Hello World" /> , document.getElementById('root'));
+    </script>
+</body>
