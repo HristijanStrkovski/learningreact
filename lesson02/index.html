@@ -1,0 +1,22 @@
+<body>
+    <script src="https://unpkg.com/react@16.3.0/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16.3.0/umd/react-dom.development.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.js"></script>
+
+    <div id='root'> </div>
+    <script type="text/babel">
+        const rootElement = document.getElementById('root');
+        // const content = 'Hello World';
+        // const className = 'container';
+        // const element = <div className={className}>{content}</div>;
+
+        const props = {
+            className: 'container',
+            children: 'Hello World',
+            madafakaz: 'Ola ola'
+        }
+        const divElement = <div {...props} />
+        ReactDOM.render(divElement, rootElement);
+    </script>
+
+</body>
