@@ -1,0 +1,34 @@
+<body>
+    <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/prop-types/15.6.2/prop-types.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.js"></script>
+
+    <div id='root'></div>
+    <script type="text/babel">
+        const rootElement = document.getElementById('root');
+
+        //REACT only rerenders the items that change state
+        function getTime() {
+            const time = new Date().toLocaleTimeString();
+            const element = <div> 
+            the time is <input value= {time}/>
+            </div>;
+            ReactDOM.render(element , rootElement);
+        }
+
+        //WITH template strings we update the WHOLE element and not only the parts that changed
+        function getTime() {
+            const time = new Date().toLocaleTimeString();
+            const element = `<div> 
+            the time is <input value= ${time}/>
+            </div>;`
+            rootElement.innerHTML = element;
+        }
+
+        setInterval(() => {
+            getTime()
+        }, 1000);
+        
+    </script>
+</body>
