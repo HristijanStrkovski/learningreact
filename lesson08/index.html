@@ -1,0 +1,66 @@
+<body>
+    <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/prop-types/15.6.2/prop-types.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.js"></script>
+
+    <style>
+        .box{
+            border: 2px solid slateblue;
+        }
+
+        .box--small{
+            height: 30px;
+            width: 30px;
+            background-color: aqua;
+        }
+        .box--medium{
+            height: 60px;
+            width: 60px;
+            background-color: salmon;
+        }
+        .box--large{
+            height: 90px;
+            width: 90px;
+            background-color: sienna;
+        }
+
+
+    </style>
+
+    <div id='root'></div>
+    <script type="text/babel">
+        function Box({style, className,  size ,...rest}) {
+            const sizeClassName = size? `box--${size}` : '';
+            return(
+                <div
+                    className = {`box ${sizeClassName} ${className}`}
+                    style = {{paddingLeft: 20, ...style}}
+                    {...rest}
+                />
+            )
+        }
+
+        const Elements = (
+            <div>
+                <Box size='small'
+                        style= {{backgroundColor: 'lightblue'}}
+                >
+                    Small
+                    </Box>
+                <Box size='medium'
+                    style= {{backgroundColor: 'yellow'}}
+                >
+                    medium
+                </Box>
+                <Box size='large'
+                    style= {{backgroundColor: 'salmon'}}
+                >
+                    large
+                </Box>
+            </div>
+        )
+
+        ReactDOM.render(Elements, document.getElementById('root'));
+    </script>
+</body>
