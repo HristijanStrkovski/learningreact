@@ -5,61 +5,84 @@
 
     <div id='root'></div>
     <script type="text/babel">
-        class NameForm extends React.Component{
-            state = {
-                error: this.props.getErrorMessage('')
-            }
-            handleSubmit = event => {
-                event.preventDefault();
-                const value = event.target.username.value;
-                const error = this.props.getErrorMessage(value);
+        class MultipleFormValues extends React.Component{
+            
+            static avaibleOptions = [
+                'apple',
+                'grape',
+                'cherry',
+                'orange',
+                'pear',
+                'peect'
+            ]
+            
+            state =  {multiLine: '', commaSeperated: '', multiSelect: []}
 
-                if(error){
-                    alert(`error: ${error}`);
-                }else{
-                    alert(`success: ${value}`);
-                }
-            }
-        
-            handleChange = (event) => {
+            handleCommaSeperatedChange = (event) => {
                 const {value} = event.target;
+                const allVals = value.split(',').map(v => v.trim()).filter(Boolean);
                 this.setState({
-                    error: this.props.getErrorMessage(value)
+                    commaSeperated: value,
+                    multiLine: allVals.join('\n'),
+                    multiSelect: allVals.filter(v => MultipleFormValues.avaibleOptions.includes(v)),
                 })
             }
-            
+
+            handleMultilineChange = (event) => {
+                const {value} = event.target;
+                const allVals = value.split('\n').map(v => v.trim()).filter(Boolean);
+                this.setState({
+                    commaSeperated: allVals.join(','),
+                    multiLine: value,
+                    multiSelect: allVals.filter(v => MultipleFormValues.avaibleOptions.includes(v))
+                })
+            }
+
+            handleMultiSelectChange = (event) => {
+                const allVals = Array.from(event.target.selectedOptions).map(o => o.value)
+                this.setState({
+                    multiSelect: allVals,
+                    multiLine: allVals.join('\n'),
+                    commaSeperated: allVals.join(',')
+                })
+            }
             render(){
-                const {error} = this.state;
+                const  {commaSeperated, multiLine, multiSelect} = this.state;
+                console.log(multiSelect);
+                
                 return(
-                    <form onSubmit= {this.handleSubmit}>
-                        <label>
-                            Name:
-                            <input onChange = {this.handleChange} type='text' name='username' placeholder='Type something in'/>
-                            {error? (
-                                <div style= {{color: 'red'}}> {error} </div>
-                            ): null}
+                    <div>
+                        <label style = {{display: 'block'}}>
+                            comma seperated values:
+                            <br/>
+                            <input onChange={this.handleCommaSeperatedChange} type='text' value={commaSeperated} />
                         </label>
-                        <button disabled= {!!error} type='submit'>
-                            Submit
-                        </button>
-                    </form>
-                );
+
+                        <label  style = {{display: 'block'}} >
+                            multiline values:
+                            <br/>
+                            <textarea rows={MultipleFormValues.avaibleOptions.length} onChange={this.handleMultilineChange}  value={multiLine}
+                            />
+                        </label>
+
+                        <label style = {{display: 'block'}} >
+                            multiSelect values:
+                            <br/>
+                            <select value={multiSelect} multiple onChange={this.handleMultiSelectChange}>
+                                {MultipleFormValues.avaibleOptions.map(optionValue => (
+                                    <option key={optionValue}
+                                            value={optionValue}
+                                    >
+                                    {optionValue}
+                                    </option>
+                                ))}
+                            </select>
+                        </label>
+                    </div>
+                )
             }
         }
-        ReactDOM.render(
-        <NameForm
-            getErrorMessage = {value => {
-                    if(value.length < 3) {
-                        return 'value must be atleast 3 characters but its only ' + `${value.length}`;
-                    }
-                    if(!value.includes('s')){
-                        return 'value does not include "s" but it should';
-                    }
-                    return null;
-                }
-            }
-        />,
-         document.getElementById('root'),
-         )
+
+        ReactDOM.render(<MultipleFormValues/>, document.getElementById('root'))
     </script>
 </body>
